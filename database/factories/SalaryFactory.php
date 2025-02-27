@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,8 @@ class SalaryFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'value' => $this->faker->randomFloat(2, 1000, 9000),
+            'user_id' => $this->faker->randomElement(User::pluck('id'))
         ];
     }
 }
