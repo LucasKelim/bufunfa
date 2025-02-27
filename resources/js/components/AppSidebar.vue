@@ -14,6 +14,11 @@ const mainNavItems: NavItem[] = [
         href: '/dashboard',
         icon: LayoutGrid,
     },
+    {
+        title: 'Salário',
+        href: '/salario',
+        icon: LayoutGrid,
+    },
 ];
 
 const footerNavItems: NavItem[] = [
