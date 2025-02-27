@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SalaryController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -13,7 +14,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
-    
+    Route::resource('salaries', SalaryController::class);
 
 });
 

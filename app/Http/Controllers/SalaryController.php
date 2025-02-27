@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Salary;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class SalaryController extends Controller
 {
@@ -12,7 +14,11 @@ class SalaryController extends Controller
      */
     public function index()
     {
-        //
+        $salaries = Auth::user()->salaries;
+
+        return Inertia::render('salary/Index', [
+            'salaries' => $salaries
+        ]);
     }
 
     /**

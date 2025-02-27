@@ -15,8 +15,8 @@ const mainNavItems: NavItem[] = [
         icon: LayoutGrid,
     },
     {
-        title: 'Salário',
-        href: '/salario',
+        title: 'Salários',
+        href: '/salaries',
         icon: LayoutGrid,
     },
 ];
