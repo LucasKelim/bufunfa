@@ -33,4 +33,11 @@ export interface User {
     updated_at: string;
 }
 
+export interface rightButton {
+    text: string;
+    href: string;
+}
+
 export type BreadcrumbItemType = BreadcrumbItem;
+
+export type AppSidebarHeaderButton = rightButton;
