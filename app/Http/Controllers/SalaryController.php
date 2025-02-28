@@ -4,16 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSalaryRequest;
 use App\Models\Salary;
-use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class SalaryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): Response
     {
         $salaries = Auth::user()->salaries;
 
@@ -25,7 +26,7 @@ class SalaryController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): Response
     {
         return Inertia::render('salary/Create');
     }
@@ -33,7 +34,7 @@ class SalaryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreSalaryRequest $request)
+    public function store(StoreSalaryRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -48,9 +49,11 @@ class SalaryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Salary $salary)
+    public function show(Salary $salary): Response
     {
-        //
+        return Inertia::render('salary/Show', [
+            'salary' => $salary
+        ]);
     }
 
     /**
@@ -64,16 +67,26 @@ class SalaryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Salary $salary)
+    public function update(StoreSalaryRequest $request, Salary $salary): Response
     {
-        //
+        $validated = $request->validated();
+
+        $salary->value = $validated['value'];
+
+        $salary->update();
+
+        return Inertia::render('salary/Show', [
+            'salary' => $salary
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Salary $salary)
+    public function destroy(Salary $salary): RedirectResponse
     {
-        //
+        $salary->delete();
+
+        return to_route('salaries.index');
     }
 }

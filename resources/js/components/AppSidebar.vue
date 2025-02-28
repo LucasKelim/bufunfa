@@ -17,7 +17,7 @@ const mainNavItems: NavItem[] = [
     {
         title: 'Salários',
         href: '/salaries',
-        icon: Wallet,
+        icon: Wallet
     },
 ];
 
