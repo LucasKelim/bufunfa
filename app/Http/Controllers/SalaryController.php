@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreSalaryRequest;
 use App\Models\Salary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,9 +33,16 @@ class SalaryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreSalaryRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        Salary::create([
+            'value' => $validated['value'],
+            'user_id' => $validated['user_id']
+        ]);
+
+        return to_route('salaries.index');
     }
 
     /**
