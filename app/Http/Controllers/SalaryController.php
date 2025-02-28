@@ -1,0 +1,79 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\StoreSalaryRequest;
+use App\Models\Salary;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
+
+class SalaryController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $salaries = Auth::user()->salaries;
+
+        return Inertia::render('salary/Index', [
+            'salaries' => $salaries
+        ]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return Inertia::render('salary/Create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreSalaryRequest $request)
+    {
+        $validated = $request->validated();
+
+        Salary::create([
+            'value' => $validated['value'],
+            'user_id' => $validated['user_id']
+        ]);
+
+        return to_route('salaries.index');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Salary $salary)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Salary $salary)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Salary $salary)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Salary $salary)
+    {
+        //
+    }
+}
