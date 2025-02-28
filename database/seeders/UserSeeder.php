@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Salary;
 use App\Models\User;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -14,10 +15,6 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $users = User::factory()->make()->toArray();
-
-        foreach ($users as $user) {
-            User::create($user);
-        }
+        Salary::factory()->count(2)->create();
     }
 }
