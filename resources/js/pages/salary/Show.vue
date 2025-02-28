@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { Head, useForm } from '@inertiajs/vue3';
+import { TransitionRoot } from '@headlessui/vue';
+import { Head, useForm, usePage } from '@inertiajs/vue3';
 
 import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
 import InputMoney from '@/components/InputMoney.vue';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/AppLayout.vue';
-import { type BreadcrumbItem } from '@/types';
+import { SharedData, type BreadcrumbItem } from '@/types';
+import { Salary } from '@/types/Salary';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -14,26 +16,34 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: route('salaries.index')
     },
     {
-        title: 'Adicionar',
-        href: route('salaries.create')
+        title: 'Salário',
+        href: '/salaries'
     }
 ];
 
+const page = usePage<SharedData>();
+const salary = page.props.salary as Salary;
+
 const form = useForm({
-    value: '',
+    value: salary.value
 });
 
 const submit = () => {
-    form.post(route('salaries.store'), {
+    form.patch(route('salaries.update', { salary: salary.id }), {
         preserveScroll: true
     });
 };
 
+const destroy = () => {
+    form.delete(route('salaries.destroy', { salary: salary.id }), {
+        preserveScroll: true
+    });
+};
 </script>
 
 <template>
 
-    <Head title="Adicinar Salário" />
+    <Head title="Salários" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
@@ -46,13 +56,20 @@ const submit = () => {
                                 <div class="flex flex-col space-y-6">
                                     <form @submit.prevent="submit" class="space-y-6">
                                         <div class="grid gap-2">
-                                            <Label for="value">Valor</Label>
-                                            <InputMoney v-model="form.value" />
+                                            <Label for="name">Name</Label>
+                                            <InputMoney id="value" v-model="form.value" />
                                             <InputError class="mt-2" :message="form.errors.value" />
                                         </div>
-    
+
                                         <div class="flex items-center gap-4">
                                             <Button :disabled="form.processing">Salvar</Button>
+                                            <Button :disabled="form.processing" variant="destructive" @click.prevent="destroy">Deletar</Button>
+
+                                            <TransitionRoot :show="form.recentlySuccessful"
+                                                enter="transition ease-in-out" enter-from="opacity-0"
+                                                leave="transition ease-in-out" leave-to="opacity-0">
+                                                <p class="text-sm text-neutral-600">Salvo.</p>
+                                            </TransitionRoot>
                                         </div>
                                     </form>
                                 </div>
