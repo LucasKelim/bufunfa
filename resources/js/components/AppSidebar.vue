@@ -11,14 +11,15 @@ import AppLogo from './AppLogo.vue';
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
-        href: '/dashboard',
-        icon: LayoutGrid,
+        href: route('dashboard'),
+        icon: LayoutGrid
     },
     {
         title: 'Salários',
-        href: '/salaries',
-        icon: Wallet
-    },
+        href: route('salaries.index'),
+        icon: Wallet,
+        isActive: true
+    }
 ];
 
 const footerNavItems: NavItem[] = [

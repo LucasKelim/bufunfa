@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TransitionRoot } from '@headlessui/vue';
-import { Head, useForm, usePage } from '@inertiajs/vue3';
+import { Head, useForm, usePage, Link } from '@inertiajs/vue3';
 
 import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
@@ -63,6 +63,9 @@ const destroy = () => {
 
                                         <div class="flex items-center gap-4">
                                             <Button :disabled="form.processing">Salvar</Button>
+                                            <Link :href="route('salaries.index')">
+                                                <Button variant="outline">Voltar</Button>
+                                            </Link>
                                             <Button :disabled="form.processing" variant="destructive" @click.prevent="destroy">Deletar</Button>
 
                                             <TransitionRoot :show="form.recentlySuccessful"
