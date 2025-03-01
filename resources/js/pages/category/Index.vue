@@ -1,16 +1,23 @@
 <script setup lang="ts">
 import Heading from '@/components/Heading.vue';
-import InputSearch from '@/components/InputSearch.vue';
+import Pagination from '@/components/Pagination.vue';
+import Input from '@/components/ui/input/Input.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { BreadcrumbItem, rightButton } from '@/types';
 import { Category } from '@/types/Category';
-import { Head, Link } from '@inertiajs/vue3';
+import { PaginationLinks } from '@/types/PaginationLinks';
+import { Head, Link, router } from '@inertiajs/vue3';
+import { ref, watch } from 'vue';
 
 interface Props {
-    categories: Category[];
+    categories: {
+        data: Category[];
+        links: PaginationLinks[];
+    }
+    search: string;
 }
 
-const { categories } = defineProps<Props>();
+const props = defineProps<Props>();
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -22,7 +29,19 @@ const breadcrumbs: BreadcrumbItem[] = [
 const createButton: rightButton = {
     text: 'Adicionar Categoria',
     href: route('categories.create')
-}
+};
+
+const search = ref(props.search);
+
+watch(search, (newValue) => {
+    router.reload({
+        only: ['categories', 'search'],
+        data: {
+            search: newValue,
+            page: 1
+        }
+    })
+})
 </script>
 
 <template>
@@ -39,13 +58,11 @@ const createButton: rightButton = {
                                 <div class="flex flex-col space-y-6">
                                     <Heading title="Lista de salários">
                                         <template #html>
-                                            <form action="" class="flex items-center">
-                                                <InputSearch placeholder="Buscar categoria" />
-                                            </form>
+                                            <Input type="text" :ref="search" v-model="search" />
                                         </template>
                                     </Heading>
-                                    <ul v-if="categories" role="list" class="divide-y divide-gray-100">
-                                        <li v-for="category in categories" :key="category.id"
+                                    <ul v-if="props.categories.data" role="list" class="divide-y divide-gray-100 min-h-136">
+                                        <li v-for="category in props.categories.data" :key="category.id"
                                             class="flex justify-between gap-x-6 py-5">
                                             <div class="flex min-w-0 gap-x-4">
                                                 <div class="min-w-0 flex-auto">
@@ -59,6 +76,7 @@ const createButton: rightButton = {
                                         </li>
                                     </ul>
                                     <h1 v-else class="text-center">Nenhum salário adicionado</h1>
+                                    <Pagination :links="props.categories.links" />
                                 </div>
                             </div>
                         </section>

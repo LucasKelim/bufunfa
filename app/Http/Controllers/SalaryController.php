@@ -18,9 +18,9 @@ class SalaryController extends Controller
     {
         $search = request()->all()['search'] ?? '';
         $salaries = Salary::where('user_id', Auth::id())
-                    ->where('value', 'LIKE', "$search%")
-                    ->paginate(6)
-                    ->withQueryString();
+            ->where('value', 'LIKE', "$search%")
+            ->paginate(6)
+            ->withQueryString();
 
         return Inertia::render('salary/Index', [
             'salaries' => $salaries,
