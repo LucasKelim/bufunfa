@@ -4,38 +4,39 @@ import { Head, useForm, usePage, Link } from '@inertiajs/vue3';
 
 import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
-import InputMoney from '@/components/InputMoney.vue';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { SharedData, type BreadcrumbItem } from '@/types';
-import { Salary } from '@/types/Salary';
+import { Category } from '@/types/Category';
+import { Input } from '@/components/ui/input';
+
 
 const page = usePage<SharedData>();
-const salary = page.props.salary as Salary;
+const category = page.props.category as Category;
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Salários',
-        href: route('salaries.index')
+        title: 'Categorias',
+        href: route('categories.index')
     },
     {
-        title: 'Salário',
-        href: route('salaries.show', { salary: salary.id })
+        title: 'Categoria',
+        href: route('categories.show', { category: category.id })
     }
 ];
 
 const form = useForm({
-    value: salary.value
+    name: category.name
 });
 
 const submit = () => {
-    form.patch(route('salaries.update', { salary: salary.id }), {
+    form.patch(route('categories.update', { category: category.id }), {
         preserveScroll: true
     });
 };
 
 const destroy = () => {
-    form.delete(route('salaries.destroy', { salary: salary.id }), {
+    form.delete(route('categories.destroy', { category: category.id }), {
         preserveScroll: true
     });
 };
@@ -57,13 +58,13 @@ const destroy = () => {
                                     <form @submit.prevent="submit" class="space-y-6">
                                         <div class="grid gap-2">
                                             <Label for="name">Name</Label>
-                                            <InputMoney id="value" v-model="form.value" />
-                                            <InputError class="mt-2" :message="form.errors.value" />
+                                            <Input id="name" v-model="form.name" />
+                                            <InputError class="mt-2" :message="form.errors.name" />
                                         </div>
 
                                         <div class="flex items-center gap-4">
                                             <Button :disabled="form.processing">Salvar</Button>
-                                            <Link :href="route('salaries.index')">
+                                            <Link :href="route('categories.index')">
                                                 <Button variant="outline">Voltar</Button>
                                             </Link>
                                             <Button :disabled="form.processing" variant="destructive" @click.prevent="destroy">Deletar</Button>
