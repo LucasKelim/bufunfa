@@ -17,6 +17,7 @@ class CategoryController extends Controller
         $search = request()->all()['search'] ?? '';
         $categories = Category::where('name', 'LIKE', "$search%")
             ->paginate(6)
+            ->onEachSide(0)
             ->withQueryString();
 
         return Inertia::render('category/Index', [

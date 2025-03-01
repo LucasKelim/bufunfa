@@ -20,6 +20,7 @@ class SalaryController extends Controller
         $salaries = Salary::where('user_id', Auth::id())
             ->where('value', 'LIKE', "$search%")
             ->paginate(6)
+            ->onEachSide(0)
             ->withQueryString();
 
         return Inertia::render('salary/Index', [
