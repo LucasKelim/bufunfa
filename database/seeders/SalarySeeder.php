@@ -13,6 +13,6 @@ class SalarySeeder extends Seeder
      */
     public function run(): void
     {
-        Salary::factory(10)->create();
+        Salary::factory(500)->create();
     }
 }

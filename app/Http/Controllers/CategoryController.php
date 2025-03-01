@@ -14,10 +14,15 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
+        $search = request()->all()['search'] ?? '';
+        $categories = Category::where('name', 'LIKE', "$search%")
+            ->paginate(6)
+            ->onEachSide(0)
+            ->withQueryString();
 
         return Inertia::render('category/Index', [
-            'categories' => $categories
+            'categories' => $categories,
+            'search' => $search
         ]);
     }
 

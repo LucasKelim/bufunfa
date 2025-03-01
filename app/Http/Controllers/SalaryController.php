@@ -16,10 +16,16 @@ class SalaryController extends Controller
      */
     public function index(): Response
     {
-        $salaries = Auth::user()->salaries;
+        $search = request()->all()['search'] ?? '';
+        $salaries = Salary::where('user_id', Auth::id())
+            ->where('value', 'LIKE', "$search%")
+            ->paginate(6)
+            ->onEachSide(0)
+            ->withQueryString();
 
         return Inertia::render('salary/Index', [
-            'salaries' => $salaries
+            'salaries' => $salaries,
+            'search' => $search
         ]);
     }
 
