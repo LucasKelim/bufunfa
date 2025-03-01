@@ -1,49 +1,32 @@
 <script setup lang="ts">
-import AppLayout from '@/layouts/AppLayout.vue';
-import { rightButton, type BreadcrumbItem } from '@/types';
-import { Salary } from '@/types/Salary';
-import { Head, Link } from '@inertiajs/vue3';
 import Heading from '@/components/Heading.vue';
-import { computed } from 'vue';
 import InputSearch from '@/components/InputSearch.vue';
+import AppLayout from '@/layouts/AppLayout.vue';
+import { BreadcrumbItem, rightButton } from '@/types';
+import { Category } from '@/types/Category';
+import { Head, Link } from '@inertiajs/vue3';
 
 interface Props {
-    salaries: Salary[];
+    categories: Category[];
 }
 
-const { salaries } = defineProps<Props>();
+const { categories } = defineProps<Props>();
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Salários',
-        href: route('salaries.index')
+        title: 'Categorias',
+        href: route('categories.index')
     }
 ];
 
 const createButton: rightButton = {
-    text: 'Adicionar Salário',
-    href: route('salaries.create')
+    text: 'Adicionar Categoria',
+    href: route('categories.create')
 }
-
-const formattedSalaries = computed(() => {
-    return salaries.map(salary => ({
-        ...salary,
-        formattedValue: new Intl.NumberFormat('pt-BR', {
-            style: 'currency',
-            currency: 'BRL'
-        }).format(Number(salary.value)),
-        formattedCreatedAt: new Date(salary.created_at).toLocaleDateString('pt-BR', {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit'
-        })
-    }))
-});
-
 </script>
 
 <template>
-    <Head title="Salários" />
+    <Head title="Categorias" />
 
     <AppLayout :breadcrumbs="breadcrumbs" :button="createButton">
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
@@ -57,26 +40,21 @@ const formattedSalaries = computed(() => {
                                     <Heading title="Lista de salários">
                                         <template #html>
                                             <form action="" class="flex items-center">
-                                                <InputSearch placeholder="Buscar salária" />
+                                                <InputSearch placeholder="Buscar categoria" />
                                             </form>
                                         </template>
                                     </Heading>
-                                    <ul v-if="salaries" role="list" class="divide-y divide-gray-100">
-                                        <li v-for="salary in formattedSalaries" :key="salary.id"
+                                    <ul v-if="categories" role="list" class="divide-y divide-gray-100">
+                                        <li v-for="category in categories" :key="category.id"
                                             class="flex justify-between gap-x-6 py-5">
                                             <div class="flex min-w-0 gap-x-4">
                                                 <div class="min-w-0 flex-auto">
-                                                    <Link :href="route('salaries.show', { salary: salary.id })">
-                                                    <p class="text-sm/6 font-semibold text-green-400 underline">+ {{
-                                                        salary.formattedValue }}</p>
+                                                    <Link :href="route('categories.show', { category: category.id })">
+                                                    <p class="text-sm/6 font-semibold underline">{{ category.name }}</p>
                                                     </Link>
-                                                    <p class="mt-1 truncate text-xs/5">{{ salary.formattedCreatedAt }}
+                                                    <p class="mt-1 truncate text-xs/5">Usado {{ category.name }}
                                                     </p>
                                                 </div>
-                                            </div>
-                                            <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-                                                <p class="text-sm/6 text-red-400">- R$ 1.231,18</p>
-                                                <p class="mt-1 text-xs/5">R$ 150,31 </p>
                                             </div>
                                         </li>
                                     </ul>

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreSalaryRequest;
+use App\Http\Requests\SalaryRequest;
 use App\Models\Salary;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -34,7 +34,7 @@ class SalaryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreSalaryRequest $request): RedirectResponse
+    public function store(SalaryRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -67,7 +67,7 @@ class SalaryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreSalaryRequest $request, Salary $salary): Response
+    public function update(SalaryRequest $request, Salary $salary): Response
     {
         $validated = $request->validated();
 

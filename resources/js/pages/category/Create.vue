@@ -3,28 +3,28 @@ import { Head, useForm } from '@inertiajs/vue3';
 
 import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
-import InputMoney from '@/components/InputMoney.vue';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
+import Input from '@/components/ui/input/Input.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Salários',
-        href: route('salaries.index')
+        title: 'Categorias',
+        href: route('categories.index')
     },
     {
         title: 'Adicionar',
-        href: route('salaries.create')
+        href: route('categories.create')
     }
 ];
 
 const form = useForm({
-    value: '',
+    name: '',
 });
 
 const submit = () => {
-    form.post(route('salaries.store'), {
+    form.post(route('categories.store'), {
         preserveScroll: true
     });
 };
@@ -33,7 +33,7 @@ const submit = () => {
 
 <template>
 
-    <Head title="Adicinar Salário" />
+    <Head title="Adicinar Categorias" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
@@ -46,9 +46,9 @@ const submit = () => {
                                 <div class="flex flex-col space-y-6">
                                     <form @submit.prevent="submit" class="space-y-6">
                                         <div class="grid gap-2">
-                                            <Label for="value">Valor</Label>
-                                            <InputMoney v-model="form.value" placeholder="Valor do salário" />
-                                            <InputError class="mt-2" :message="form.errors.value" />
+                                            <Label for="name">Nome</Label>
+                                            <Input v-model="form.name" placeholder="Nome da categoria" />
+                                            <InputError class="mt-2" :message="form.errors.name" />
                                         </div>
     
                                         <div class="flex items-center gap-4">
