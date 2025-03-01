@@ -2,16 +2,22 @@
 import AppLayout from '@/layouts/AppLayout.vue';
 import { rightButton, type BreadcrumbItem } from '@/types';
 import { Salary } from '@/types/Salary';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
 import Heading from '@/components/Heading.vue';
-import { computed } from 'vue';
-import InputSearch from '@/components/InputSearch.vue';
+import { computed, ref, watch } from 'vue';
+import Input from '@/components/ui/input/Input.vue';
+import Pagination from '@/components/Pagination.vue';
+import { PaginationLinks } from '@/types/PaginationLinks';
 
 interface Props {
-    salaries: Salary[];
+    salaries: {
+        data: Salary[];
+        links: PaginationLinks[]
+    };
+    search: string;
 }
 
-const { salaries } = defineProps<Props>();
+const props = defineProps<Props>();
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -25,24 +31,37 @@ const createButton: rightButton = {
     href: route('salaries.create')
 }
 
+const search = ref(props.search);
+
 const formattedSalaries = computed(() => {
-    return salaries.map(salary => ({
-        ...salary,
-        formattedValue: new Intl.NumberFormat('pt-BR', {
-            style: 'currency',
-            currency: 'BRL'
-        }).format(Number(salary.value)),
-        formattedCreatedAt: new Date(salary.created_at).toLocaleDateString('pt-BR', {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit'
-        })
-    }))
+    return props.salaries.data
+        .map(salary => ({
+            ...salary,
+            formattedValue: new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            }).format(Number(salary.value)),
+            formattedCreatedAt: new Date(salary.created_at).toLocaleDateString('pt-BR', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            })
+        }));
 });
 
+watch(search, (newValue) => {
+    router.reload({
+        only: ['salaries', 'search'],
+        data: {
+            search: newValue,
+            page: 1
+        }
+    });
+});
 </script>
 
 <template>
+
     <Head title="Salários" />
 
     <AppLayout :breadcrumbs="breadcrumbs" :button="createButton">
@@ -56,12 +75,11 @@ const formattedSalaries = computed(() => {
                                 <div class="flex flex-col space-y-6">
                                     <Heading title="Lista de salários">
                                         <template #html>
-                                            <form action="" class="flex items-center">
-                                                <InputSearch placeholder="Buscar salária" />
-                                            </form>
+                                            <Input type="text" :ref="search" v-model="search"
+                                                placeholder="Buscar salário" />
                                         </template>
                                     </Heading>
-                                    <ul v-if="salaries" role="list" class="divide-y divide-gray-100">
+                                    <ul v-if="salaries" role="list" class="divide-y divide-gray-100 min-h-136">
                                         <li v-for="salary in formattedSalaries" :key="salary.id"
                                             class="flex justify-between gap-x-6 py-5">
                                             <div class="flex min-w-0 gap-x-4">
@@ -81,6 +99,7 @@ const formattedSalaries = computed(() => {
                                         </li>
                                     </ul>
                                     <h1 v-else class="text-center">Nenhum salário adicionado</h1>
+                                    <Pagination :links="salaries.links" />
                                 </div>
                             </div>
                         </section>

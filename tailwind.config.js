@@ -71,6 +71,13 @@ export default {
                     ring: 'hsl(var(--sidebar-ring))',
                 },
             },
+            spacing: {
+                '128': '32rem',
+                '132': '33rem',
+                '136': '34rem',
+                '140': '35rem',
+                '144': '36rem'
+            }
         },
     },
     plugins: [require('tailwindcss-animate')],
