@@ -22,7 +22,7 @@ O `Bufunfa` também está sendo utilizado como uma oportunidade para estudar e a
 
 1. Clone o repositório:
   ```bash
-  [git clone https://github.com/usuario/bufunfa.git](https://github.com/LucasKelim/bufunfa.git)
+  git clone https://github.com/LucasKelim/bufunfa.git
   ```
 
 2. Instale as dependências:
