@@ -94,7 +94,9 @@ watch(search, (newValue) => {
                                                 </div>
                                             </div>
                                             <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-                                                <p class="text-sm/6 text-green-400">R$ {{ expense.formattedSalaryValue }}</p>
+                                                <Link :href="route('salaries.show', { salary: expense.salary_id })">
+                                                    <p class="text-sm/6 text-green-400 underline">R$ {{ expense.formattedSalaryValue }}</p>
+                                                </Link>
                                             </div>
                                         </li>
                                     </ul>

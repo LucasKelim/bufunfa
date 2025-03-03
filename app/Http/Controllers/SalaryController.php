@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SalaryRequest;
+use App\Models\Category;
+use App\Models\Expense;
 use App\Models\Salary;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -57,8 +59,17 @@ class SalaryController extends Controller
      */
     public function show(Salary $salary): Response
     {
+        $expenses = Expense::where('salary_id', $salary->id)
+            ->with('category')
+            ->paginate(6)
+            ->withQueryString();
+
+        $categories = Category::all();
+
         return Inertia::render('salary/Show', [
-            'salary' => $salary
+            'salary' => $salary,
+            'expenses' => $expenses,
+            'categories' => $categories
         ]);
     }
 

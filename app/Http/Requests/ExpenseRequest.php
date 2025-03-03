@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class SalaryRequest extends FormRequest
+class ExpenseRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,15 +24,15 @@ class SalaryRequest extends FormRequest
     {
         return [
             'value' => ['required', 'numeric', 'min:0.01'],
-            'user_id' => ['required', 'exists:users,id']
+            'salary_id' => ['required', 'exists:salaries,id'],
+            'category_id' => ['required', 'exists:categories,id']
         ];
     }
 
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'value' => $this->formatValue($this->value),
-            'user_id' => Auth::id()
+            'value' => $this->formatValue($this->value)
         ]);
     }
 
