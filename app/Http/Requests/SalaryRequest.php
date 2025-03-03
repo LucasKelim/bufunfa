@@ -23,7 +23,7 @@ class SalaryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'value' => ['required', 'numeric', 'min:0.01'],
+            'value' => ['required', 'numeric', 'min:1000,00'],
             'user_id' => ['required', 'exists:users,id']
         ];
     }
@@ -41,7 +41,7 @@ class SalaryRequest extends FormRequest
         if (!is_string($value)) {
             return $value;
         }
-
+        
         $value = str_replace(',', '', $value);
         return $value;
     }

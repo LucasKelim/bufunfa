@@ -50,6 +50,7 @@ const expenseForm = useForm({
 });
 
 const submitSalary = () => {
+    salaryForm.value = format(salaryForm.value);
     salaryForm.patch(route('salaries.update', { salary: props.salary.id }), {
         preserveScroll: true
     });
