@@ -1,4 +1,3 @@
-
 export interface Salary {
     id: number;
     value: string;

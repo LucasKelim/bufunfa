@@ -5,7 +5,6 @@ O `Bufunfa` é um projeto pessoal desenvolvido para mim e minha namorada, com o 
 O `Bufunfa` também está sendo utilizado como uma oportunidade para estudar e aprofundar os conhecimentos no **Laravel 12** e na integração com o **Inertia.js** e **Vue.js**.
 
 ## Para fazer
-- Criar **gastos** e ralacionar com **salário** e **categoria**
 - Calculo do **salário** com os **gatos** no index dos salários
 - Formulário para adicionar **gastos** ao visualizar **salário**
 - Mostrar para outros usuários quando um usuário está online
