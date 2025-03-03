@@ -18,7 +18,7 @@ class SalaryFactory extends Factory
     public function definition(): array
     {
         return [
-            'value' => $this->faker->randomFloat(2, 1000, 9000),
+            'value' => $this->faker->randomFloat(2, 1000, 9999),
             'user_id' => $this->faker->randomElement(User::pluck('id'))
         ];
     }

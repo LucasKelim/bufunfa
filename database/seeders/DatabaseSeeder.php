@@ -30,9 +30,9 @@ class DatabaseSeeder extends Seeder
             'remember_token' => Str::random(10)
         ]);
         $this->call([
-            UserSeeder::class,
             SalarySeeder::class,
-            CategorySeeder::class
+            CategorySeeder::class,
+            ExpenseSeeder::class
         ]);
     }
 }
