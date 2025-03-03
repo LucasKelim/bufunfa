@@ -5,7 +5,7 @@ O `Bufunfa` é um projeto pessoal desenvolvido para mim e minha namorada, com o 
 O `Bufunfa` também está sendo utilizado como uma oportunidade para estudar e aprofundar os conhecimentos no **Laravel 12** e na integração com o **Inertia.js** e **Vue.js**.
 
 ## Para fazer
-- Calculo do salári* com os gastos no index dos salários
+- Calculo do salário com os gastos no index dos salários
 - Ajustar retorno ao atualizar salario
 - Inverter a ordem dos dados vindos do backend
 - Formulário para adicionar gastos ao visualizar salário

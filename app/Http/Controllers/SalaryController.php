@@ -84,7 +84,7 @@ class SalaryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(SalaryRequest $request, Salary $salary): Response
+    public function update(SalaryRequest $request, Salary $salary): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -92,9 +92,7 @@ class SalaryController extends Controller
 
         $salary->update();
 
-        return Inertia::render('salary/Show', [
-            'salary' => $salary
-        ]);
+        return to_route('salaries.show', $salary->id);
     }
 
     /**
