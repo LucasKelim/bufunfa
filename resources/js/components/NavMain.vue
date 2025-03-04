@@ -20,7 +20,7 @@ props.items.forEach(item => {
 
 <template>
     <SidebarGroup class="px-2 py-0">
-        <SidebarGroupLabel>Platform</SidebarGroupLabel>
+        <SidebarGroupLabel>Páginas</SidebarGroupLabel>
         <SidebarMenu>
             <SidebarMenuItem v-for="item in items" :key="item.title" class="group/item">
                 <SidebarMenuButton as-child :is-active="item.href === page.url">
