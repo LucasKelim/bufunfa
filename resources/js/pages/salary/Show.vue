@@ -68,6 +68,13 @@ const submitExpense = () => {
         preserveScroll: true
     });
 };
+
+const formattedExpense = (value: string) => {
+    return new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+    }).format(Number(value));
+}
 </script>
 
 <template>
@@ -115,7 +122,8 @@ const submitExpense = () => {
                                             </div>
                                             <div class="basis-1/2 flex flex-col gap-2">
                                                 <Label for="category_id">Categoria</Label>
-                                                <Select id="category_id" name="category_id" v-model="expenseForm.category_id">
+                                                <Select id="category_id" name="category_id"
+                                                    v-model="expenseForm.category_id">
                                                     <option v-for="category in props.categories" :key="category.id"
                                                         :value="category.id">{{ category.name }}</option>
                                                 </Select>
@@ -141,12 +149,12 @@ const submitExpense = () => {
                                             <div class="flex min-w-0 gap-x-4">
                                                 <div class="min-w-0 flex-auto">
                                                     <Link :href="route('expenses.show', { expense: expense.id })">
-                                                    <p class="text-sm/6 font-semibold underline text-red-400">- {{
-                                                        expense.value }}</p>
+                                                    <p class="text-sm/6 font-semibold underline text-red-400">-
+                                                        {{ formattedExpense(expense.value) }}</p>
                                                     </Link>
                                                     <p class="mt-1 truncate text-xs/5">Categoria: {{
                                                         expense.category.name
-                                                        }}
+                                                    }}
                                                     </p>
                                                 </div>
                                             </div>
