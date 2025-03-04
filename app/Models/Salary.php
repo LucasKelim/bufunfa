@@ -14,6 +14,8 @@ class Salary extends Model
 
     protected $fillable = ['value', 'user_id'];
 
+    protected $appends = ['total_expenses', 'remaining_salary'];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -22,5 +24,15 @@ class Salary extends Model
     public function expenses(): HasMany
     {
         return $this->hasMany(Expense::class);
+    }
+
+    public function getTotalExpensesAttribute()
+    {
+        return $this->expenses()->sum('value');
+    }
+
+    public function getRemainingSalaryAttribute()
+    {
+        return $this->value - $this->total_expenses;
     }
 }

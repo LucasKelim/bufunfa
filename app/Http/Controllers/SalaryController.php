@@ -19,9 +19,9 @@ class SalaryController extends Controller
     public function index(): Response
     {
         $search = request()->all()['search'] ?? '';
-        $salaries = Salary::where('user_id', Auth::id())
-            ->where('value', 'LIKE', "$search%")
+        $salaries = Salary::where('value', 'LIKE', "$search%")
             ->orderByDesc('id')
+            ->with('user')
             ->paginate(6)
             ->onEachSide(0)
             ->withQueryString();
