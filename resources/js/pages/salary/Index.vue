@@ -4,10 +4,11 @@ import { rightButton, type BreadcrumbItem } from '@/types';
 import { Salary } from '@/types/Salary';
 import { Head, Link, router } from '@inertiajs/vue3';
 import Heading from '@/components/Heading.vue';
-import { computed, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 import Input from '@/components/ui/input/Input.vue';
 import Pagination from '@/components/Pagination.vue';
 import { PaginationLinks } from '@/types/PaginationLinks';
+import { formatCreatedAt, formatCurrency } from '@/composables/useFormat';
 
 interface Props {
     salaries: {
@@ -32,22 +33,6 @@ const createButton: rightButton = {
 }
 
 const search = ref(props.search);
-
-const formattedSalaries = computed(() => {
-    return props.salaries.data
-        .map(salary => ({
-            ...salary,
-            formattedValue: new Intl.NumberFormat('pt-BR', {
-                style: 'currency',
-                currency: 'BRL'
-            }).format(Number(salary.value)),
-            formattedCreatedAt: new Date(salary.created_at).toLocaleDateString('pt-BR', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit'
-            })
-        }));
-});
 
 watch(search, (newValue) => {
     router.reload({
@@ -80,21 +65,25 @@ watch(search, (newValue) => {
                                         </template>
                                     </Heading>
                                     <ul v-if="salaries" role="list" class="divide-y divide-gray-100 min-h-136">
-                                        <li v-for="salary in formattedSalaries" :key="salary.id"
+                                        <li v-for="salary in props.salaries.data" :key="salary.id"
                                             class="flex justify-between gap-x-6 py-5">
                                             <div class="flex min-w-0 gap-x-4">
                                                 <div class="min-w-0 flex-auto">
-                                                    <Link :href="route('salaries.show', { salary: salary.id })">
-                                                    <p class="text-sm/6 font-semibold text-green-400 underline">+ {{
-                                                        salary.formattedValue }}</p>
-                                                    </Link>
-                                                    <p class="mt-1 truncate text-xs/5">{{ salary.formattedCreatedAt }}
+                                                    <p class="text-sm/6 font-semibold">
+                                                        <Link :href="route('salaries.show', { salary: salary.id })" class="text-green-400 underline">
+                                                        + {{ formatCurrency(salary.value, 'BRL') }}
+                                                        </Link>
+                                                        - {{ formatCreatedAt(salary.created_at) }}
+                                                    </p>
+                                                    <p class="mt-1 truncate text-xs/5">{{ salary.user.name }}
                                                     </p>
                                                 </div>
                                             </div>
                                             <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-                                                <p class="text-sm/6 text-red-400">- R$ 1.231,18</p>
-                                                <p class="mt-1 text-xs/5">R$ 150,31 </p>
+                                                <p class="text-sm/6 text-red-400">- {{
+                                                    formatCurrency(salary.total_expenses, 'BRL') }}</p>
+                                                <p class="mt-1 text-xs/5">{{ formatCurrency(salary.remaining_salary,
+                                                    'BRL') }}</p>
                                             </div>
                                         </li>
                                     </ul>
