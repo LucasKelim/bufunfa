@@ -21,6 +21,7 @@ class SalaryController extends Controller
         $search = request()->all()['search'] ?? '';
         $salaries = Salary::where('user_id', Auth::id())
             ->where('value', 'LIKE', "$search%")
+            ->orderByDesc('id')
             ->paginate(6)
             ->onEachSide(0)
             ->withQueryString();
@@ -60,6 +61,7 @@ class SalaryController extends Controller
     public function show(Salary $salary): Response
     {
         $expenses = Expense::where('salary_id', $salary->id)
+            ->orderByDesc('id')
             ->with('category')
             ->paginate(6)
             ->withQueryString();

@@ -19,6 +19,7 @@ class ExpenseController extends Controller
         $search = request()->all()['search'] ?? '';
         $expenses = Expense::with(['salary', 'category'])
             ->where('value', 'LIKE', "$search%")
+            ->orderByDesc('id')
             ->paginate(6)
             ->onEachSide(0)
             ->withQueryString();
