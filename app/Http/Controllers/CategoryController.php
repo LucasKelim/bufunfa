@@ -16,6 +16,7 @@ class CategoryController extends Controller
     {
         $search = request()->all()['search'] ?? '';
         $categories = Category::where('name', 'LIKE', "$search%")
+            ->orderByDesc('id')
             ->paginate(6)
             ->onEachSide(0)
             ->withQueryString();
