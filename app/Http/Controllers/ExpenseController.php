@@ -14,28 +14,17 @@ class ExpenseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response
+    public function index()
     {
-        $search = request()->all()['search'] ?? '';
-        $expenses = Expense::with(['salary', 'category'])
-            ->where('value', 'LIKE', "$search%")
-            ->orderByDesc('id')
-            ->paginate(6)
-            ->onEachSide(0)
-            ->withQueryString();
-
-        return Inertia::render('expense/Index', [
-            'expenses' => $expenses,
-            'search' => $search
-        ]);
+        //
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): Response
+    public function create()
     {
-        return Inertia::render('expense/Create');
+        //
     }
 
     /**
@@ -75,9 +64,15 @@ class ExpenseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Expense $expense)
+    public function update(ExpenseRequest $request, Expense $expense)
     {
-        //
+        $validated = $request->validated();
+
+        $expense->value = $validated['value'];
+
+        $expense->update();
+
+        return to_route('expenses.show', $expense->id);
     }
 
     /**
@@ -87,6 +82,6 @@ class ExpenseController extends Controller
     {
         $expense->delete();
 
-        return to_route('expenses.index');
+        return to_route('salaries.show', $expense->salary_id);
     }
 }

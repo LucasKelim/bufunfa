@@ -1,17 +1,19 @@
 <script setup lang="ts">
 import { TransitionRoot } from '@headlessui/vue';
-import { Head, useForm, usePage, Link } from '@inertiajs/vue3';
+import { Head, useForm, Link } from '@inertiajs/vue3';
 
 import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
 import InputMoney from '@/components/InputMoney.vue';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/AppLayout.vue';
-import { SharedData, type BreadcrumbItem } from '@/types';
 import { Expense } from '@/types/Expense';
+import { BreadcrumbItem } from '@/types';
+import { format } from 'v-money3';
 
-const page = usePage<SharedData>();
-const expense = page.props.expense as Expense;
+const { expense } = defineProps<{
+    expense: Expense;
+}>();
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -25,10 +27,13 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 const form = useForm({
+    salary_id: expense.salary_id,
+    category_id: expense.category_id,
     value: expense.value
 });
 
 const submit = () => {
+    form.value = format(form.value);
     form.patch(route('expenses.update', { expense: expense.id }), {
         preserveScroll: true
     });
@@ -56,14 +61,14 @@ const destroy = () => {
                                 <div class="flex flex-col space-y-6">
                                     <form @submit.prevent="submit" class="space-y-6">
                                         <div class="grid gap-2">
-                                            <Label for="name">Name</Label>
+                                            <Label for="value">Name</Label>
                                             <InputMoney id="value" v-model="form.value" class="text-red-400" />
                                             <InputError class="mt-2" :message="form.errors.value" />
                                         </div>
 
                                         <div class="flex items-center gap-4">
                                             <Button :disabled="form.processing">Salvar</Button>
-                                            <Link :href="route('expenses.index')">
+                                            <Link :href="route('salaries.show', { salary: expense.salary_id })">
                                                 <Button variant="outline">Voltar</Button>
                                             </Link>
                                             <Button :disabled="form.processing" variant="destructive" @click.prevent="destroy">Deletar</Button>
