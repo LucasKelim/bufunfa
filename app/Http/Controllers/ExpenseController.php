@@ -76,6 +76,6 @@ class ExpenseController extends Controller
     {
         $expense->delete();
 
-        return to_route('expenses.index');
+        return to_route('salaries.show', $expense->salary_id);
     }
 }

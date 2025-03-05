@@ -13,6 +13,9 @@ import { Expense } from '@/types/Expense';
 const page = usePage<SharedData>();
 const expense = page.props.expense as Expense;
 
+console.log(expense);
+
+
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Gastos',
@@ -63,7 +66,7 @@ const destroy = () => {
 
                                         <div class="flex items-center gap-4">
                                             <Button :disabled="form.processing">Salvar</Button>
-                                            <Link :href="route('expenses.index')">
+                                            <Link :href="route('salaries.show', { salary: expense.salary_id })">
                                                 <Button variant="outline">Voltar</Button>
                                             </Link>
                                             <Button :disabled="form.processing" variant="destructive" @click.prevent="destroy">Deletar</Button>
