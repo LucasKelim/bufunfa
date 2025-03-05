@@ -14,28 +14,17 @@ class ExpenseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response
+    public function index()
     {
-        $search = request()->all()['search'] ?? '';
-        $expenses = Expense::with(['salary', 'category'])
-            ->where('value', 'LIKE', "$search%")
-            ->orderByDesc('id')
-            ->paginate(6)
-            ->onEachSide(0)
-            ->withQueryString();
-
-        return Inertia::render('expense/Index', [
-            'expenses' => $expenses,
-            'search' => $search
-        ]);
+        //
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): Response
+    public function create()
     {
-        return Inertia::render('expense/Create');
+        //
     }
 
     /**
