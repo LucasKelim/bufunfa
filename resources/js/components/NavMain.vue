@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-import { type NavItem, type SharedData } from '@/types';
+import { User, type NavItem, type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
 import { Plus } from 'lucide-vue-next';
+import UserInfo from './UserInfo.vue';
 
 const props = defineProps<{
     items: NavItem[];
+    usersOn?: User[];
 }>();
 
 const page = usePage<SharedData>();
@@ -14,7 +16,7 @@ const normalizePath = (url: string) => new URL(url, window.location.origin).path
 
 props.items.forEach(item => {
     item.href = normalizePath(item.href);
-})
+});
 
 </script>
 
@@ -33,6 +35,17 @@ props.items.forEach(item => {
                             </Link>
                         </span>
                     </Link>
+                </SidebarMenuButton>
+            </SidebarMenuItem>
+        </SidebarMenu>
+    </SidebarGroup>
+    <hr>
+    <SidebarGroup v-if="usersOn" class="px-2 py-0">
+        <SidebarGroupLabel>Online - {{ usersOn.length }}</SidebarGroupLabel>
+        <SidebarMenu>
+            <SidebarMenuItem v-for="user in usersOn" :key="user.id" class="group/item">
+                <SidebarMenuButton size="lg" class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
+                    <UserInfo :user="user" />
                 </SidebarMenuButton>
             </SidebarMenuItem>
         </SidebarMenu>

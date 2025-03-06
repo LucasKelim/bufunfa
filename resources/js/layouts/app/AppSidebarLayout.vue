@@ -4,6 +4,9 @@ import AppShell from '@/components/AppShell.vue';
 import AppSidebar from '@/components/AppSidebar.vue';
 import AppSidebarHeader from '@/components/AppSidebarHeader.vue';
 import type { BreadcrumbItemType, AppSidebarHeaderButton } from '@/types';
+import { usePresenceStore } from '@/stores/presence';
+
+const usersOn = usePresenceStore();
 
 interface Props {
     breadcrumbs?: BreadcrumbItemType[];
@@ -17,11 +20,12 @@ withDefaults(defineProps<Props>(), {
         href: ''
     })
 });
+
 </script>
 
 <template>
     <AppShell variant="sidebar">
-        <AppSidebar />
+        <AppSidebar :users-on="usersOn.users" />
         <AppContent variant="sidebar">
             <AppSidebarHeader :breadcrumbs="breadcrumbs" :button="button" />
             <slot />
