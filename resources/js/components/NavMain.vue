@@ -39,6 +39,7 @@ props.items.forEach(item => {
             </SidebarMenuItem>
         </SidebarMenu>
     </SidebarGroup>
+    <hr>
     <SidebarGroup v-if="usersOn" class="px-2 py-0">
         <SidebarGroupLabel>Online - {{ usersOn.length }}</SidebarGroupLabel>
         <SidebarMenu>

@@ -3,10 +3,14 @@ import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-import { type NavItem } from '@/types';
+import { User, type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
 import { Folder, LayoutGrid, Wallet, Tag } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
+
+defineProps<{
+    usersOn?: User[];
+}>();
 
 const mainNavItems: NavItem[] = [
     {
@@ -36,10 +40,6 @@ const footerNavItems: NavItem[] = [
     }
 ];
 
-import { usePresenceStore } from '@/stores/presence';
-
-const presenceStore = usePresenceStore();
-
 </script>
 
 <template>
@@ -55,9 +55,9 @@ const presenceStore = usePresenceStore();
                 </SidebarMenuItem>
             </SidebarMenu>
         </SidebarHeader>
-
+        
         <SidebarContent>
-            <NavMain :items="mainNavItems" :users-on="presenceStore.users" />
+            <NavMain :items="mainNavItems" :users-on="usersOn" />
         </SidebarContent>
 
         <SidebarFooter>
