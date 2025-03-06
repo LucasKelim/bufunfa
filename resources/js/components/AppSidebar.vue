@@ -35,6 +35,11 @@ const footerNavItems: NavItem[] = [
         icon: Folder,
     }
 ];
+
+import { usePresenceStore } from '@/stores/presence';
+
+const presenceStore = usePresenceStore();
+
 </script>
 
 <template>
@@ -52,7 +57,7 @@ const footerNavItems: NavItem[] = [
         </SidebarHeader>
 
         <SidebarContent>
-            <NavMain :items="mainNavItems" />
+            <NavMain :items="mainNavItems" :users-on="presenceStore.users" />
         </SidebarContent>
 
         <SidebarFooter>
